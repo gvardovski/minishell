@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:44 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/17 09:07:22 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/17 11:02:56 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-void	ft_cd(char *gv);
+char    *ft_cd(char *str, char *oldpwd);
 void	ft_pwd(void);
 
 #endif

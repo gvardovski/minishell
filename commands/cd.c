@@ -6,22 +6,26 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:15 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/17 09:26:56 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/17 11:11:35 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cd.h"
 
-void ft_printpwd(void)
+//COMMAND PWD NO CHECK FOR INPUT ARGUMENTS
+
+void ft_pwd(void)
 {
 	char buf[1024];
 	char *ptr;
 
     ptr = getcwd(buf, 1024);
 	if (!ptr)
+	{
 		perror("pwd ");
-	else
-		printf("%s\n", ptr);
+		exit(1);
+	}
+	printf("%s\n", ptr);
 }
 
 void checkchdir(char *str)
@@ -33,39 +37,66 @@ void checkchdir(char *str)
 	}
 }
 
-void	ft_cd(char *str)
+char	*setnewoldpwd(void)
 {
-	if ((str[0] == '~') || (!strcmp(str, "")))
+	char buf[1024];
+	char *ptr;
+
+    ptr = getcwd(buf, 1024);
+	if (!ptr)
 	{
-		str = getenv("HOME");
-		checkchdir(str);
+		perror("pwd ");
+		exit(1);
 	}
-	/* else if (gc > 2)
-	{
-		printf("cd: too many arguments\n");
-		exit(0);
-	} */
-	else if (str[0] == '-')
-	{
-		str = getenv("OLDPWD");
-		checkchdir(str);
-	}
-	else
-		checkchdir(str);
+	return (ptr);
 }
 
-int main(void)
+//COMMAND CD NO CHECK FOR INPUT ARGUMENTS
+//COMMAND CD NO CHECK FOR TOO MANY ARGUMENTS
+
+char	*ft_cd(char *str, char *oldpwd)
+{
+	char *newoldpwd = NULL;
+
+	if ((str[0] == '~') || (!strcmp(str, "")))
+	{
+		newoldpwd = setnewoldpwd();
+		checkchdir(getenv("HOME"));
+		return(strdup(newoldpwd));
+	}
+	else if (str[0] == '-')
+	{
+		if (!oldpwd)
+		{
+			printf("cd: OLDPWD not set\n");
+			exit(1);
+		}
+		newoldpwd = setnewoldpwd();
+		checkchdir(oldpwd);
+		return(strdup(newoldpwd));
+	}
+	else
+	{
+		newoldpwd = setnewoldpwd();
+		checkchdir(str);
+		return(strdup(newoldpwd));
+	}
+}
+
+// MAIN FOR COMMAND CD AND COMMAND PWD CHECK
+
+/* int main(void)
 {
 	char *str;
+	char *oldpwd = NULL;
 
 	str = readline("cd ");
-	ft_cd(str);
-	ft_printpwd();
+	oldpwd = ft_cd(str, oldpwd);
+	ft_pwd();
 	while (str)
 	{
 		str = readline("cd ");
-		ft_cd(str);
-		ft_printpwd();
+		oldpwd = ft_cd(str, oldpwd);
+		ft_pwd();
 	}
-}
-
+} */
