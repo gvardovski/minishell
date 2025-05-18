@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cd.h"
+#include "commands.h"
 
 //COMMAND PWD NO CHECK FOR INPUT ARGUMENTS
 

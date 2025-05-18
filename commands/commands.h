@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CD_H
-# define CD_H
+#ifndef COMMANDS_H
+# define COMMANDS_H
 
 # define _POSIX_C_SOURCE 200809L
 

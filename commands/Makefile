@@ -1,7 +1,8 @@
-NAME = cd
+NAME = echo
 CC = cc
 FLAGS = -Wall -Wextra -Werror
-SRC = cd.c
+SRC = cdpwd.c \
+	echo.c
 AR = ar rcs
 OBJECTS = $(SRC:.c=.o)
 %$.o: %$.c
