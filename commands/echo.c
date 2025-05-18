@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 09:17:17 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/18 10:52:16 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/18 15:42:27 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void ft_echo(char *str, char *flag)
     }
 }
 
-int main(int gc, char **gv)
+/* int main(int gc, char **gv)
 {
     char *flag = NULL;
 
@@ -70,4 +70,4 @@ int main(int gc, char **gv)
         ft_echo(gv[1], flag);
     else
         ft_echo(gv[1], gv[2]);
-}
+} */

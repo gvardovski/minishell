@@ -1,8 +1,9 @@
-NAME = echo
+NAME = test
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 SRC = cdpwd.c \
-	echo.c
+	echo.c \
+	utils.c
 AR = ar rcs
 OBJECTS = $(SRC:.c=.o)
 %$.o: %$.c

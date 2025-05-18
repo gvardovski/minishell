@@ -1,102 +1,150 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   cdpwd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:15 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/17 11:11:35 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/18 22:25:41 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
-//COMMAND PWD NO CHECK FOR INPUT ARGUMENTS
+//HANDLE EXITS
 
-void ft_pwd(void)
+//IT DOESNT MATTER WHAT WOULD BE AFTER PWD COMMAND >> IT WILL PRINT PWD
+
+void ft_pwd(t_list *ptr)
 {
 	char buf[1024];
-	char *ptr;
+	char *p;
 
-    ptr = getcwd(buf, 1024);
-	if (!ptr)
+    p = getcwd(buf, 1024);
+	if (!p)
 	{
-		perror("pwd ");
+		perror("pwd");
 		exit(1);
 	}
-	printf("%s\n", ptr);
+	ptr->pwd = p;
+	printf("%s\n", ptr->pwd);
 }
 
 void checkchdir(char *str)
 {
 	if (chdir(str) != 0)
-	{
-		perror("cd ");
+	{ 
+		perror("cd");
+		free(str);
 		exit(1);
 	}
 }
 
-char	*setnewoldpwd(void)
+
+char *handlearg(char *str)
 {
+	char *strtrim;
+	char *tmp = NULL;
+
+	strtrim = ft_strtrim(str, " ");
+	if ((strtrim[0] == 39) && (strtrim[strlen(strtrim) - 1] == 39))
+	{
+		tmp = ft_strtrim(strtrim, "'");
+		free(strtrim);
+		return(tmp);
+	}
+	if ((strtrim[0] == 34) && (strtrim[strlen(strtrim) - 1] == 34))
+	{
+		tmp = ft_strtrim(strtrim, "\"");
+		free(strtrim);
+		return(tmp);
+	}
+	return(strtrim);
+}
+
+void getnewoldpwd(t_list *ptr, char *str, int mes)
+{
+	ptr->oldpwd = ptr->pwd;
+	checkchdir(str);
+	if (mes == 1)
+		ft_pwd(ptr);
+}
+
+//COMMAND CD NO CHECK FOR TOO MANY ARGUMENTS, BUT IT WILL BE EXIT WITH ERROR "NO SUCH DIRECTOTY"
+//FIRST SPACE PROBLEM.
+
+void	ft_cd(t_list *ptr)
+{
+	char *strtrim;
 	char buf[1024];
-	char *ptr;
-
-    ptr = getcwd(buf, 1024);
-	if (!ptr)
+	
+	if (!ptr->pwd)
+		ptr->pwd = getcwd(buf, 1024);
+	printf("%s\n", ptr->pwd);
+	if (ptr->oldpwd)
+		printf("%s\n", ptr->oldpwd);
+	strtrim = handlearg(ptr->str);
+	if ((!strcmp(ptr->str, "~")) || (!strcmp(ptr->str, "")))
+		getnewoldpwd(ptr, getenv("HOME"), 0);
+	else if ((!strcmp(ptr->str, "-")))
 	{
-		perror("pwd ");
-		exit(1);
-	}
-	return (ptr);
-}
-
-//COMMAND CD NO CHECK FOR INPUT ARGUMENTS
-//COMMAND CD NO CHECK FOR TOO MANY ARGUMENTS
-
-char	*ft_cd(char *str, char *oldpwd)
-{
-	char *newoldpwd = NULL;
-
-	if ((str[0] == '~') || (!strcmp(str, "")))
-	{
-		newoldpwd = setnewoldpwd();
-		checkchdir(getenv("HOME"));
-		return(strdup(newoldpwd));
-	}
-	else if (str[0] == '-')
-	{
-		if (!oldpwd)
+		if (!ptr->oldpwd)
 		{
 			printf("cd: OLDPWD not set\n");
+			free(strtrim);
 			exit(1);
 		}
-		newoldpwd = setnewoldpwd();
-		checkchdir(oldpwd);
-		return(strdup(newoldpwd));
+		getnewoldpwd(ptr, ptr->oldpwd,1);
 	}
 	else
-	{
-		newoldpwd = setnewoldpwd();
-		checkchdir(str);
-		return(strdup(newoldpwd));
-	}
+		getnewoldpwd(ptr, strtrim, 0);
+	free(strtrim);
 }
 
 // MAIN FOR COMMAND CD AND COMMAND PWD CHECK
 
+int main(void)
+{	
+	t_list *ptr;
+
+	ptr = malloc(sizeof(t_list));
+	ptr->oldpwd = NULL;
+	ptr->pwd = NULL;
+
+	ptr->str = readline("cd");
+	ft_cd(ptr);
+	ft_pwd(ptr);
+	while (ptr->str)
+	{
+		ptr->str = readline("cd");
+		ft_cd(ptr);
+		ft_pwd(ptr);
+	}
+}
+
 /* int main(void)
 {
-	char *str;
-	char *oldpwd = NULL;
+	t_list *ptr;
 
-	str = readline("cd ");
-	oldpwd = ft_cd(str, oldpwd);
+	ptr = malloc(sizeof(t_list));
+	ptr->oldpwd = NULL;
+
+	ptr->str = readline("cd");
+	ft_cd(ptr);
 	ft_pwd();
-	while (str)
-	{
-		str = readline("cd ");
-		oldpwd = ft_cd(str, oldpwd);
-		ft_pwd();
-	}
+	ptr->str = readline("cd");
+	ft_cd(ptr);
+	ft_pwd();
+	free(ptr->oldpwd);
+	if (ptr->str)
+		free(ptr->str);
+	free(ptr);
+} */
+
+// MAIN FOR COMMAND PWD CHECK
+
+/* int main(void)
+{
+	ft_pwd();
 } */
