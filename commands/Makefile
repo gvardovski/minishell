@@ -1,8 +1,7 @@
 NAME = test
 CC = cc
 FLAGS = -Wall -Wextra -Werror -g
-SRC = cdpwd.c \
-	echo.c \
+SRC = env.c \
 	utils.c
 AR = ar rcs
 OBJECTS = $(SRC:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:06:43 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/18 20:40:53 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:45:53 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*ft_strcpy(char *dstr, const char *str)
 	return (dstr);
 }
 
-static size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
