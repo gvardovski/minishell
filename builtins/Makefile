@@ -3,7 +3,9 @@ CC = cc
 FLAGS = -Wall -Wextra -Werror -g
 SRC = cdpwd.c \
 	echo.c \
-	env.c
+	env.c \
+	unset.c \
+	exp.c
 AR = ar rcs
 OBJECTS = $(SRC:.c=.o)
 MINISHELL = ../objs/minishell.a

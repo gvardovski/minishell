@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:12:12 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/22 15:27:11 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/23 13:37:44 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_shenv *new(char *key, char *value)
     en = malloc(sizeof(t_shenv));
     en->key = key;
     en->value = value;
+	en->export = 0;
     en->next = NULL;
     return(en);
 }
@@ -74,52 +75,6 @@ void addback(t_shenv **en, t_shenv *new)
     	*en = new;
 }
 
-void freecontent(t_shenv *en)
-{
-	if (en)
-	{
-		free(en->key);
-		free(en->value);
-		free(en);
-	}
-}
-
-void delone(t_shenv **en, char *key)
-{
-	t_shenv *priv = NULL;
-	t_shenv *next = NULL;
-	t_shenv *head;
-	//t_shenv *tmp = NULL;
-	
-	head = *en;
-	while(head)
-	{
-		if (ft_strncmp(head->key, key, ft_strlen(head->key)) == 0)
-			break;
-		priv = head;
-		head = head->next;
-	}
-	if (priv == NULL)
-	{	
-		if (head->next != NULL)
-			next = head->next;
-		//tmp = head;
-		//free(head);
-		*en = head->next;
-		freecontent(head);
-	}
-	else
-	{
-		if (head->next != NULL)
-			next = head->next;
-		freecontent(head);
-		if (next != NULL)
-			priv->next = next;
-		else	
-			priv->next = NULL;
-	}
-}
-
 t_shenv *initshellenv(t_shenv *en, char **env)
 {
     int i;
@@ -139,25 +94,6 @@ t_shenv *initshellenv(t_shenv *en, char **env)
     return(en);
 }
 
-int ft_unset(t_shenv **en, char **gv)
-{
-	int i;
-
-	if ((arr_len(gv) == 1) && (ft_strncmp(gv[0], "unset", ft_strlen(gv[0])) != 0))
-	{
-		printf("‘%s’: command not found\n", gv[0]);
-		return (1);
-	}
-	i = 1;
-	while(gv[i])
-	{
-		delone(en, gv[i]);
-		i++;
-	}
-	printf("");
-	return(0);
-}
-
 int	ft_env(t_shenv *en, char **gv)
 {
 	if (arr_len(gv) > 1)
@@ -172,14 +108,14 @@ int	ft_env(t_shenv *en, char **gv)
 	}
     while(en)
     {
-        ft_printf("%s=", en->key);
-        ft_printf("%s\n", en->value);
-        en = en->next;
+		if (en->export == 0)
+        	ft_printf("%s=%s\n", en->key, en->value);
+		en = en->next;
     }
 	return (0);
 }
 
-int main(int gc, char **gv, char **env)
+/* int main(int gc, char **gv, char **env)
 {
     (void)gc;
     (void)gv;
@@ -189,12 +125,11 @@ int main(int gc, char **gv, char **env)
 	gv1[0] = "env";
 	gv1[1] = NULL;
     en = initshellenv(en, env);
-	char *gv2[4];
+	char *gv2[3];
 	gv2[0] = "unset";
-	gv2[1] = "LANGUAGE";
-	gv2[2] = "OLDPWD";
-	gv2[3] = NULL;
+	gv2[1] = "SHELL";
+	gv2[2] = NULL;
 	ft_unset(&en, gv2);
     ft_env(en, gv1);
 	freeenv(en);
-}
+} */

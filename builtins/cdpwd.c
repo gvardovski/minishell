@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:15 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/22 12:34:50 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/23 11:31:09 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,17 @@ char *mygetcwd()
 
 void setpwd(t_shenv *en, char *oldpwd, char *keyvalue)
 {
-	while (ft_strncmp(en->key, keyvalue, ft_strlen(en->key)) != 0)
+	while (en)
+	{
+		if (ft_strncmp(en->key, keyvalue, ft_strlen(en->key)) == 0)
+			break;
 		en = en->next;
-	free(en->value);
-	en->value = oldpwd;
+	}
+	if (en)
+	{
+		free(en->value);
+		en->value = oldpwd;
+	}
 }
 
 int ft_pwd(char **gv)
