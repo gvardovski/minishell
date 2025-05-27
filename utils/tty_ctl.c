@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   tty_ctl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aobshatk <aobshatk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 22:44:21 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/23 12:38:22 by aobshatk         ###   ########.fr       */
+/*   Created: 2025/05/26 10:58:26 by aobshatk          #+#    #+#             */
+/*   Updated: 2025/05/26 11:01:27 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	disable_echoctl(void)
 {
-	unsigned char	str1;
-	unsigned char	str2;
+	struct termios	term;
 
-	if (!s1)
-	{
-		printf("found\n");
-		return (-1);
-	}
-	while (n > 0)
-	{
-		str1 = *(unsigned char *)s1;
-		str2 = *(unsigned char *)s2;
-		if (str1 != str2)
-		{
-			if (str1 - str2 > 0)
-				return (1);
-			return (-1);
-		}
-		s1++;
-		s2++;
-		n--;
-	}
-	return (0);
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void	enable_echoctl(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

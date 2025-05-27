@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 11:15:54 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/23 13:31:22 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:34:03 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,23 @@ void delone(t_shenv **en, char *key)
 	}
 }
 
-int ft_unset(t_shenv **en, char **gv)
+int ft_unset(t_main_dat *main_data, char **gv)
 {
 	int i;
+	t_shenv *en;
 
+	en = main_data->env_cp;
 	if ((arr_len(gv) == 1) && (ft_strncmp(gv[0], "unset", ft_strlen(gv[0])) != 0))
 	{
-		printf("‘%s’: command not found\n", gv[0]);
+		ft_printf("‘%s’: command not found\n", gv[0]);
 		return (1);
 	}
 	i = 1;
 	while(gv[i])
 	{
-		delone(en, gv[i]);
+		delone(&en, gv[i]);
 		i++;
 	}
-	printf("");
+	ft_printf("");
 	return(0);
 }
-
-/* int main(int gc, char **gv, char **env)
-{
-    (void)gc;
-    (void)gv;
-	char *gv1[2];
-    t_shenv *en = NULL;
-
-	gv1[0] = "env";
-	gv1[1] = NULL;
-    en = initshellenv(en, env);
-	char *gv2[2];
-	gv2[0] = "export";
-	gv2[1] = NULL;
-	ft_export(en, gv2);
-} */

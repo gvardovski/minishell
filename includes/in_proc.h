@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_proc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
+/*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 09:44:11 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/17 19:19:29 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:16:36 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 
 typedef struct s_heredoc_in
 {
-	int				pipe;
 	int				*stop_heredoc;
 	char			*line;
 	char			**heredoc_data;

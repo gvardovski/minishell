@@ -6,7 +6,7 @@
 /*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 13:37:28 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/18 18:56:40 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/05/24 23:52:03 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static char	*read_input(t_main_dat *main_data)
 
 int	run_input_processor(t_main_dat *main_data)
 {
-	rl_catch_signals = 0;
 	while (1)
 	{
 		main_data->input_data.prompt = init_prompt();
@@ -34,6 +33,7 @@ int	run_input_processor(t_main_dat *main_data)
 			rl_clear_history();
 			free(main_data->input_data.prompt);
 			free(main_data->input_data.input);
+			freeenv(main_data->env_cp);
 			write(1, "exit\n", 5);
 			return (0);
 		}

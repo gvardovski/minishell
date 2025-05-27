@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:12:12 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/23 13:37:44 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:48:10 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,19 @@ int getposeql(char *str)
     int i;
 
     i = 0;
-    while(str[i] != '=')
+    while(str[i] && str[i] != '=')
         i++;
     return(i);
 }
 
-t_shenv *new(char *key, char *value)
+t_shenv *new(char *key, char *value, int export)
 {
     t_shenv *en;
 
     en = malloc(sizeof(t_shenv));
     en->key = key;
     en->value = value;
-	en->export = 0;
+	en->export = export;
     en->next = NULL;
     return(en);
 }
@@ -88,14 +88,17 @@ t_shenv *initshellenv(t_shenv *en, char **env)
         pos = getposeql(env[i]);
         key = ft_substr(env[i], 0, pos);
         value = ft_substr(env[i], pos + 1, ft_strlen(env[i]) - pos - 1);
-        addback(&en, new(key, value));
+        addback(&en, new(key, value, 0));
         i++;
     }
     return(en);
 }
 
-int	ft_env(t_shenv *en, char **gv)
+int	ft_env(t_main_dat *main_data, char **gv)
 {
+	t_shenv *en;
+
+	en = main_data->env_cp;
 	if (arr_len(gv) > 1)
 	{
 		printf("env: ‘%s’: No such file or directory\n", gv[1]);
@@ -103,7 +106,7 @@ int	ft_env(t_shenv *en, char **gv)
 	}
 	if (ft_strlen(gv[0]) > 3)
 	{
-		printf("‘%s’: command not found\n", gv[0]);
+		ft_printf("‘%s’: command not found\n", gv[0]);
 		return (1);
 	}
     while(en)
@@ -114,22 +117,3 @@ int	ft_env(t_shenv *en, char **gv)
     }
 	return (0);
 }
-
-/* int main(int gc, char **gv, char **env)
-{
-    (void)gc;
-    (void)gv;
-	char *gv1[2];
-    t_shenv *en = NULL;
-	
-	gv1[0] = "env";
-	gv1[1] = NULL;
-    en = initshellenv(en, env);
-	char *gv2[3];
-	gv2[0] = "unset";
-	gv2[1] = "SHELL";
-	gv2[2] = NULL;
-	ft_unset(&en, gv2);
-    ft_env(en, gv1);
-	freeenv(en);
-} */

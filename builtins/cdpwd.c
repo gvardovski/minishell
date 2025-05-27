@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:15 by svolkau           #+#    #+#             */
-/*   Updated: 2025/05/23 11:31:09 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:09:22 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,14 @@ void setpwd(t_shenv *en, char *oldpwd, char *keyvalue)
 	}
 }
 
-int ft_pwd(char **gv)
+int ft_pwd(t_main_dat *main_data,char **gv)
 {
 	char buf[1024];
 	char *p;
-	
+	t_main_dat temp;
+
+	temp = *main_data;
+	(void)temp;
 	if (ft_strlen("pwd") != ft_strlen(gv[0]))
 	{
 		ft_printf("minishell: '%s': command not found\n", gv[0]);
@@ -56,8 +59,11 @@ int ft_pwd(char **gv)
 	return(0);
 }
 
-int	ft_cd(t_shenv *en, char **gv)
+int	ft_cd(t_main_dat *main_data, char **gv)
 {
+	t_shenv *en;
+
+	en = main_data->env_cp;
 	if (arr_len(gv) > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
@@ -78,22 +84,3 @@ int	ft_cd(t_shenv *en, char **gv)
 	setpwd(en, mygetcwd(), "PWD");
 	return(0);
 }
-
-/* int main(int gc, char **gv, char **env)
-{
-	(void)gc;
-    (void)gv;
-	char *gv1[3];
-	t_shenv *en = NULL;
-
-	en = initshellenv(en, env);
-	gv1[0] = "cd";
-	gv1[1] = "..";
-	gv1[2] = NULL;
-	ft_cd(en, gv1);
-	char *gv2[2];
-	gv2[0] = "env";
-	gv2[1] = NULL;
-    ft_env(en, gv2);
-	freeenv(en);
-} */

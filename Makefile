@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+         #
+#    By: aobshatk <aobshatk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/10 11:51:53 by aobshatk          #+#    #+#              #
-#    Updated: 2025/05/19 13:35:49 by svolkau          ###   ########.fr        #
+#    Updated: 2025/05/26 11:02:16 by aobshatk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,15 +15,19 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 LIBFTPATH = libft/ft_printf/
 
-CMD_PROC = command_processor/command_processor.c command_processor/commands.c command_processor/split_arguments.c
-IN_PROC = input_processor/input_processor.c input_processor/prompt.c
-UTILS = utils/helpers.c utils/processes.c utils/prompt.c utils/checkers.c utils/charset.c utils/processes.c utils/string.c utils/prompt_utils.c \
-		utils/spl_args_utils.c utils/arguments.c
+CMD_PROC = command_processor/command_processor.c command_processor/split_arguments.c command_processor/sequence.c command_processor/redirect.c \
+		   command_processor/redir_launcher.c command_processor/heredoc.c command_processor/command_launcher.c
+IN_PROC = input_processor/input_processor.c input_processor/prompt.c input_processor/env.c
+UTILS = utils/helpers.c utils/processes.c utils/prompt.c utils/checkers.c utils/processes.c utils/prompt_utils.c \
+		utils/spl_args_utils.c utils/arguments.c utils/valid.c utils/arguments.c utils/sequence_list.c utils/arguments.c utils/sequence_utils.c \
+		utils/redir_list.c utils/paths.c utils/cmd_utils.c utils/expand.c utils/tty_ctl.c
+BUILTINS = builtins/cdpwd.c builtins/echo.c builtins/env.c builtins/exit.c builtins/exp.c builtins/unset.c
 
 UTILOBJS = $(patsubst %.c, ./objs/%.o, $(notdir $(UTILS)))
 IN_PROC_OBJS = $(patsubst %.c, ./objs/%.o, $(notdir $(IN_PROC)))
 CMD_PROC_OBJS = $(patsubst %.c, ./objs/%.o, $(notdir $(CMD_PROC)))
-OBJS = $(IN_PROC_OBJS) $(UTILOBJS) $(CMD_PROC_OBJS)
+BUILTINS_OBJS = $(patsubst %.c, ./objs/%.o, $(notdir $(BUILTINS)))
+OBJS = $(BUILTINS_OBJS) $(IN_PROC_OBJS) $(UTILOBJS) $(CMD_PROC_OBJS)
 
 LIBFT = $(LIBFTPATH)/libftprintf.a
 LIBR = minishell.a
@@ -31,6 +35,10 @@ LIBR = minishell.a
 NAME = minishell
 
 HOSTNM := @$(shell hostname)
+
+./objs/%.o: ./builtins/%.c
+	@mkdir -p objs
+	@$(CC) $(CFLAGS) -DHSTNM=\"$(HOSTNM)\" -c $< -o $@
 
 ./objs/%.o: ./input_processor/%.c
 	@mkdir -p objs
