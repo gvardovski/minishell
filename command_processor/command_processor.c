@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_processor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aobshatk <aobshatk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:46:50 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/26 11:03:17 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/06/01 14:05:25 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	launch_sequence(t_main_dat *main_data)
 {
 	if (!main_data->pipe)
 		single_command(main_data);
+	else
+		start_piping(main_data);
 	restore_sys_files(main_data->stdin_cp, main_data->stdout_cp);
 	unlink("heredoc");
 	clear_sequence(&main_data->sequence);
@@ -94,8 +96,9 @@ void	run_command_processor(t_main_dat *main_data)
 		return ;
 	spl_in = ft_split(main_data->input_data.input, '|');
 	init_sequence(main_data, spl_in);
-	fill_redir(main_data);
 	free_arr(spl_in);
+	if(!fill_redir(main_data))
+		return;
 	if (!init_commands(main_data))
 		return ;
 	if (main_data->sequence->commands->argv)

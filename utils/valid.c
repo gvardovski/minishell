@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aobshatk <aobshatk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:20:43 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/19 15:02:40 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:31:46 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	 check_valid(char **args)
 	int	i;
 
 	i = 0;
-	while(args[i])
+	while(args && args[i])
 	{
 		if (check_semicol(args[i]))
 		{
@@ -93,7 +93,7 @@ int	 check_valid(char **args)
 		}
 		if (!check_quotes(args[i]))
 		{
-			ft_printf("minishell: invalid syntax--unclosed quotes\n");
+			ft_printf("minishell: invalid syntax--quotes\n");
 			return (0);
 		}
 		if (backslash(args[i]))

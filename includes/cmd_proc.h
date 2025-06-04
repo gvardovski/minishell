@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_proc.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aobshatk <aobshatk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:47:23 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/26 11:01:30 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:27:01 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_redir
 
 typedef struct s_seq
 {
+	int				pid;
 	char			*temp_redir;
 	char			*temp_cmd;
 	t_redir			*redirect;
@@ -59,12 +60,11 @@ typedef struct s_seq
 }					t_seq;
 
 int					is_redir(char delim, char *args);
-int					launch_redir(t_seq *sequence);
 int					process_failed(pid_t pid);
 int					create_pipe(int *pipefd);
-int					heredoc(char *eof);
 int					check_exist(char *path);
 int					redir_in(char *file);
+int					stop_quotes(char quote, char *input);
 void				clear_redirect(t_redir **redirect);
 void				add_redirect(t_redir **redir, t_redir *new_redir);
 void				skip_space(char *str, int *j, int *i);
@@ -78,10 +78,15 @@ void				add_node_a(t_args **lst, t_args *new);
 void				clear_list_a(t_args **lst, void (*del_a)(char *));
 void				delete_node_a(t_args *lst, void (*del_a)(char *));
 void				add_path(char *path, t_seq **sequence);
-void				trim_arg(char **arg);
 void				init_str(char **str, char **array);
 void				disable_echoctl(void);
 void				enable_echoctl(void);
+void				extract_outer_string(char **res, char *arg, int *i,
+						t_args **args);
+void				update_args(char **res, t_args **args);
+void				write_quotes(int write_end, char *input);
+void				clean_up_arg(char ***arg);
+char				**nw_argv(t_args *new_args);
 char				*find_path(char *cmd, char **paths);
 char				**split_arguments(char *arguments);
 char				**create_argv(t_args **args);

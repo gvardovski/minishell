@@ -6,32 +6,11 @@
 /*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:33:35 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/25 19:44:39 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/06/01 12:23:22 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/minishell.h"
-
-void	trim_arg(char **arg)
-{
-	int	len;
-	char	*temp;
-
-	if (*arg[0] == '\"' || *arg[0] == '\'')
-		temp = ft_strdup(*arg + 1);
-	else
-		temp = ft_strdup(*arg);
-	len = ft_strlen(temp);
-	if (temp[len - 1] == '\"' || temp[len - 1] == '\'')
-	{
-		temp[len - 1] = 0;
-		free(*arg);
-		*arg = ft_strdup(temp);
-		free(temp);
-		return;
-	}
-	free(temp);
-}
 
 int	check_exist(char *path)
 {
@@ -63,5 +42,7 @@ char	*find_path(char *cmd, char **paths)
 		path = NULL;
 		i++;
 	}
+	if (errno == 2)
+		ft_printf("%s: command not found\n", cmd);
 	return (path);
 }

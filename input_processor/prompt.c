@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
+/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 10:32:29 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/26 13:33:18 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/05/24 23:58:18 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*get_home_inner(char **pwd, int len_home, int len_pwd)
 	char	*str2;
 	char	*temp;
 
-	str1 = ft_strdup("T~/");
+	str1 = ft_strdup("~/");
 	temp = NULL;
 	str2 = NULL;
 	while (len_home < len_pwd)

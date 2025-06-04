@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_char.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
+/*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 07:38:00 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/01/07 23:33:38 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:04:36 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_print_char(t_flags flags, char args, t_list *cargs, t_list *sizes)
 		return ;
 	sz = size(o_flags);
 	*sptr = sz;
-	result = calloc(sizeof(char), sizeof(char) * sz + 1);
+	result = calloc(1, sizeof(char) * sz + 1);
 	if (!result)
 		return ;
 	if (!o_flags.width)

@@ -6,23 +6,36 @@
 /*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:50:33 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/25 20:06:47 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/06/01 18:36:17 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static char	*no_path_arg(char *arg, char **paths)
+{
+	char	*res;
+	
+	res = NULL;
+	if (built_in(arg) < 0)
+		res = find_path(arg,paths);
+	return (res);
+}
 
 static int	init_path(t_seq **sequence, char **paths)
 {
 	int	i;
 
 	i = 0;
-	while ((*sequence)->commands->argv[0][i])
+	while ((*sequence)->commands->argv[i] && (*sequence)->commands->argv[0][i])
 	{
 		if ((*sequence)->commands->argv[0][i] == '/')
 		{
 			if (!check_exist((*sequence)->commands->argv[0]))
+			{
+				ft_printf("%s\n: command not found\n", (*sequence)->commands->argv[0]);
 				return (0);
+			}
 			else
 			{
 				(*sequence)->commands->path = ft_strdup((*sequence)->commands->argv[0]);
@@ -31,8 +44,7 @@ static int	init_path(t_seq **sequence, char **paths)
 		}
 		i++;
 	}
-	if (built_in((*sequence)->commands->argv[0]) < 0)
-		(*sequence)->commands->path = find_path((*sequence)->commands->argv[0], paths);
+	(*sequence)->commands->path = no_path_arg((*sequence)->commands->argv[0], paths);
 	if (!(*sequence)->commands->path && built_in((*sequence)->commands->argv[0]) < 0)
 		return (0);
 	return (1);
@@ -40,24 +52,26 @@ static int	init_path(t_seq **sequence, char **paths)
 
 static int	init_args(t_main_dat *main_dat, t_seq **sequence)
 {
-	int	i;
+	int		i;
 	char	**argv;
 
 	i = 0;
 	(*sequence)->commands->argv = split_arguments((*sequence)->temp_cmd);
-	argv = (*sequence)->commands->argv;
 	if (!check_valid((*sequence)->commands->argv))
 		return (0);
+	argv = (*sequence)->commands->argv;
 	while (argv[i])
 	{
-		if (argv[i][0] == '$' || argv[i][0] == '\"')
-			expandable(&(*sequence)->commands->argv[i], main_dat);
-		trim_arg(&(*sequence)->commands->argv[i]);
+		if (i == 0 && is_var((*sequence)->commands->argv, main_dat))
+			return (0);
+		expandable(&(*sequence)->commands->argv[i], main_dat);
 		i++;
 	}
+	clean_up_arg(&(*sequence)->commands->argv);
+	if (!(*sequence)->commands->argv[0])
+		return (0);
 	return (1);
 }
-
 static int	seq_size(t_seq *sequence)
 {
 	int	i;
@@ -82,11 +96,8 @@ int	fill_commands(t_main_dat *main_data, char **paths)
 	{
 		if (!init_args(main_data, &temp))
 			return (0);
-		if (!init_path(&temp, paths))
-		{
-			perror("minishell");
+		if (temp->commands->argv && !init_path(&temp, paths))
 			return (0);
-		}
 		temp = temp->next;
 	}
 	return (1);

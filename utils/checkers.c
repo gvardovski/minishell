@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
+/*   By: aobshatk <aobshatk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 19:02:56 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/25 20:04:01 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/05/30 09:55:34 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,21 @@ int	built_in(char *arg)
 	b_names = ft_split("cd,echo,pwd,export,unset,env,exit", ',');
 	while (b_names[i])
 	{
-		if (strncmp(b_names[i], arg, ft_strlen(arg)) == 0)
+		if (strncmp(b_names[i], arg, ft_strlen(arg)) == 0 && strncmp(b_names[i], arg, ft_strlen(b_names[i])) == 0)
 		{
 			free_arr(b_names);
 			return (i);
 		}
 		i++;
 	}
+	free_arr(b_names);
 	return (-1);
 }
 
 void	init_str(char **str, char **array)
 {
 	int	len;
-	
+
 	len = arr_len(array);
 	if (len > 1)
 		*str = ft_strjoin(array[0], " ");

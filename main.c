@@ -6,11 +6,27 @@
 /*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 11:48:14 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/05/24 20:59:25 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:12:59 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+static t_list	*init_vars()
+{
+	char	*str;
+	char	*num_to_str;
+	t_list	*first_entry;
+
+	str = NULL;
+	num_to_str = ft_itoa(0);
+	add_to_str(&str, ft_strlen("?="), "?=");
+	add_to_str(&str, ft_strlen(num_to_str), num_to_str);
+	free(num_to_str);
+	first_entry = ft_lstnew(ft_strdup(str));
+	free(str);
+	return (first_entry);
+}
 
 static void	init_builtins(t_main_dat *main_data)
 {
@@ -42,14 +58,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_main_dat	main_data;
 
+	main_data.line_counter = 0;
 	main_data.pipe = 0;
-	main_data.input_data.heredoc_in.line = NULL;
-	main_data.input_data.heredoc_in.heredoc_data = NULL;
 	main_data.input_data.input = NULL;
 	main_data.input_data.prompt = NULL;
-	main_data.exit_code = 0;
 	main_data.env_cp = NULL;
 	main_data.env_cp = initshellenv(main_data.env_cp, envp);
+	main_data.vars = init_vars();
 	init_builtins(&main_data);
 	(void)argv;
 	if (argc > 1)
@@ -57,8 +72,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("Program doesn't accept arguments\n");
 		return (1);
 	}
-	seg_init(SIGINT, sigint_handler);
-	seg_init(SIGQUIT, sigquit_handler);
 	run_input_processor(&main_data);
 	return (0);
 }
