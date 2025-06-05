@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spl_args_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aobshatk <aobshatk@mail.com>               +#+  +:+       +#+        */
+/*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:39:52 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/06/03 13:55:11 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:37:49 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ void	extract_outer_string(char **res, char *arg, int *i, t_args **args)
 			update_args(res, args);
 			return ;
 		}
-		if (arg[j] != '\"' && arg[j] != '\'')
+		if (arg[j] != '\"' && arg[j] != '\'' && arg[j] != ' ')
+			add_to_str(res, 1, &arg[j]);	
+		if (arg[j] != '\"' && arg[j] != '\'' && arg[j] == ' ')
 		{
+			update_args(res, args);
 			add_to_str(res, 1, &arg[j]);
-			if (arg[j] == ' ')
-				update_args(res, args);
+			update_args(res, args);
 		}
 		j++;
 		*i += 1;
