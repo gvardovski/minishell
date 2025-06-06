@@ -6,13 +6,13 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 09:17:17 by svolkau           #+#    #+#             */
-/*   Updated: 2025/06/05 14:50:49 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/06/06 10:44:41 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void readprintdir(char *str)
+void	readprintdir(char *str)
 {
     DIR *dir;
     struct dirent *dirs;
@@ -32,7 +32,7 @@ void readprintdir(char *str)
     closedir(dir);
 }
 
-char *cwd()
+char	*cwd()
 {
 	char buf[1024];
 	char *p;
@@ -46,7 +46,7 @@ char *cwd()
 	return(ft_strdup(p));
 }
 
-char *trimall(char *str)
+char	*trimall(char *str)
 {
 	if (str[0] == '\'')
 		return(ft_strtrim(str,"'"));
@@ -57,7 +57,7 @@ char *trimall(char *str)
 	return(ft_strdup(str));
 }
 
-void print_arr(char **gv, int start, int mes)
+void	print_arr(char **gv, int start, int mes)
 {
 	int i;
 	int len;
@@ -65,7 +65,6 @@ void print_arr(char **gv, int start, int mes)
 	char *trimstr;
 
 	i = start;
-	
 	while(gv[i])
 	{
 		if ((i == start) && (ft_strncmp(" ", gv[i], ft_strlen(gv[i])) == 0))
@@ -93,7 +92,7 @@ void print_arr(char **gv, int start, int mes)
 		ft_printf("\n");
 }
 
-int ft_echo(t_main_dat *main_data, char **gv)
+int	ft_echo(t_main_dat *main_data, char **gv)
 {
 	t_main_dat temp;
 	int i;
@@ -106,12 +105,6 @@ int ft_echo(t_main_dat *main_data, char **gv)
 	
 	temp = *main_data;
 	(void)temp;
-	i = 0;
-	while(gv[i])
-	{
-		ft_printf("%d |%s|\n", i, gv[i]);
-		i++;
-	}
 	if (ft_strlen(gv[0]) > 4)
 	{
 		ft_printf("minishell: %s: command not found\n", gv[0]);
@@ -136,7 +129,7 @@ int ft_echo(t_main_dat *main_data, char **gv)
 		}
 		if (ft_strlen(catstr) > 4)
 		{
-			ft_printf("minishell: '%s': command not found\n", catstr);
+			ft_printf("minishell: %s: command not found\n", catstr);
 			free(catstr);
 			return(1);	
 		}
