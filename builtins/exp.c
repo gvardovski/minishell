@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:29:32 by svolkau           #+#    #+#             */
-/*   Updated: 2025/06/09 11:17:17 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/06/09 14:49:07 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,6 @@ int	ft_export(t_main_dat *main_data, char **gv)
 	t_shenv	*en;
 
 	en = main_data->env_cp;
-	if ((arr_len(gv) == 1)
-		&& (ft_strncmp(gv[0], "export", ft_strlen(gv[0])) != 0))
-	{
-		ft_printf("‘%s’: command not found\n", gv[0]);
-		return (1);
-	}
 	if ((arr_len(gv) == 1)
 		&& (ft_strncmp(gv[0], "export", ft_strlen(gv[0])) == 0))
 	{

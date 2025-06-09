@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 11:15:54 by svolkau           #+#    #+#             */
-/*   Updated: 2025/06/09 11:15:19 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/06/09 14:46:52 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,6 @@ int	ft_unset(t_main_dat *main_data, char **gv)
 	t_shenv	*en;
 
 	en = main_data->env_cp;
-	if ((arr_len(gv) == 1)
-		&& (ft_strncmp(gv[0], "unset", ft_strlen(gv[0])) != 0))
-	{
-		ft_printf("‘%s’: command not found\n", gv[0]);
-		return (1);
-	}
 	i = 1;
 	while (gv[i])
 	{

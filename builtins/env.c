@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:12:12 by svolkau           #+#    #+#             */
-/*   Updated: 2025/06/09 11:22:59 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/06/09 14:45:50 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,7 @@ int	ft_env(t_main_dat *main_data, char **gv)
 	en = main_data->env_cp;
 	if (arr_len(gv) > 1)
 	{
-		printf("env: ‘%s’: No such file or directory\n", gv[1]);
-		return (1);
-	}
-	if (ft_strlen(gv[0]) > 3)
-	{
-		ft_printf("‘%s’: command not found\n", gv[0]);
+		printf("env: %s: No such file or directory\n", gv[1]);
 		return (1);
 	}
 	while (en)

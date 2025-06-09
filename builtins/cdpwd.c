@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:15 by svolkau           #+#    #+#             */
-/*   Updated: 2025/06/09 10:48:15 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/06/09 14:42:31 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,29 @@ int	ft_pwd(t_main_dat *main_data, char **gv)
 	return (0);
 }
 
-int	ft_cd(t_main_dat *main_data, char **gv)
+int	simplecheck(char **gv)
 {
-	t_shenv	*en;
-
-	en = main_data->env_cp;
+	if (arr_len(gv) == 1)
+		return (0);
 	if (arr_len(gv) > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
 		return (1);
 	}
-	if (ft_strlen(gv[0]) > 2)
-	{
-		ft_printf("minishell: %s: command not found\n", gv[0]);
-		return (1);
-	}
+	if (!gv[1][0])
+		return (0);
+	return (-1);
+}
+
+int	ft_cd(t_main_dat *main_data, char **gv)
+{
+	t_shenv	*en;
+	int		r;
+
+	en = main_data->env_cp;
+	r = simplecheck(gv);
+	if (r >= 0)
+		return (r);
 	setpwd(en, mygetcwd(), "OLDPWD");
 	if (chdir(gv[1]) != 0)
 	{
