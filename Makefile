@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aobshatk <aobshatk@student.42.fr>          +#+  +:+       +#+         #
+#    By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/10 11:51:53 by aobshatk          #+#    #+#              #
-#    Updated: 2025/06/06 14:57:34 by aobshatk         ###   ########.fr        #
+#    Updated: 2025/06/09 11:21:04 by svolkau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,13 @@ LIBFTPATH = libft/ft_printf/
 
 CMD_PROC = command_processor/command_processor.c command_processor/split_arguments.c command_processor/sequence.c command_processor/redirect.c \
 		   command_processor/redir_launcher.c command_processor/heredoc.c command_processor/command_launcher.c command_processor/pipe_ms.c \
-		   command_processor/heredoc_launcher.c command_processor/exit_handler.c
+		   command_processor/heredoc_launcher.c command_processor/exit_handler.c command_processor/redirect_helper.c
 IN_PROC = input_processor/input_processor.c input_processor/prompt.c input_processor/env.c
 UTILS = utils/helpers.c utils/processes.c utils/prompt.c utils/checkers.c utils/processes.c utils/prompt_utils.c \
 		utils/spl_args_utils.c utils/arguments.c utils/valid.c utils/arguments.c utils/sequence_list.c utils/arguments.c utils/sequence_utils.c \
 		utils/redir_list.c utils/paths.c utils/cmd_utils.c utils/tty_ctl.c utils/expand.c utils/parsing.c utils/clean_up.c utils/clean_up_utils.c \
-		utils/clear_main_data.c
-BUILTINS = builtins/cdpwd.c builtins/echo.c builtins/exit.c builtins/exp.c builtins/unset.c builtins/env.c builtins/echo_add.c
+		utils/clear_main_data.c utils/first_split.c
+BUILTINS = builtins/cdpwd.c builtins/echo.c builtins/exit.c builtins/exp.c builtins/expenv_add.c builtins/unset.c builtins/env.c builtins/echo_add.c
 EXPAND = expand/expand_list.c expand/expand.c expand/parsing.c expand/utils.c expand/exp_helpers.c
 
 UTILOBJS = $(patsubst %.c, ./objs/%.o, $(notdir $(UTILS)))

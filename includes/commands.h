@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:44 by svolkau           #+#    #+#             */
-/*   Updated: 2025/06/06 13:01:40 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/06/09 11:22:42 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,9 @@ char				*trimall(char *str);
 char				*cwd(void);
 void				readprintdir(char *str);
 void				printarreach(char **gv, int i);
+void				printexport(t_shenv *en);
+int					findkey(t_shenv *en, char *key);
+int					getposeql(char *str);
+void				freeenv(t_shenv *en);
 
 #endif
