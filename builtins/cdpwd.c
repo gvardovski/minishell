@@ -6,7 +6,7 @@
 /*   By: svolkau <gvardovski@icloud.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:15 by svolkau           #+#    #+#             */
-/*   Updated: 2025/06/09 14:42:31 by svolkau          ###   ########.fr       */
+/*   Updated: 2025/06/10 11:01:04 by svolkau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ int	ft_pwd(t_main_dat *main_data, char **gv)
 
 	temp = *main_data;
 	(void)temp;
-	if (ft_strlen("pwd") != ft_strlen(gv[0]))
-	{
-		ft_printf("minishell: %s: command not found\n", gv[0]);
-		return (1);
-	}
+	(void)gv;
 	p = getcwd(buf, 1024);
 	if (!p)
 	{
